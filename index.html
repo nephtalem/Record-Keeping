@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  </head>
+  <body>
+    <script>
+      var app = angular.module("Recorde keeping", []);
+      app.controller("myCtrl", function ($scope) {
+        $scope.name = "";
+        $scope.email = "";
+        $scope.arr = [];
+
+        $scope.add = function (){
+          if ($scope.name == "" || $scope.email == "") {
+            alert("Please fill all the fields");
+            return;}
+           else {
+               if($scope.arr.length == 0){
+                    $scope.arr.push({ name: $scope.name, email: $scope.email });
+                    $scope.name = "";
+                    $scope.email = "";
+                }
+                else if($scope.arr.length > 0 && $scope.arr.every((item) => item.email !== $scope.email)){
+                    $scope.arr.push({ name: $scope.name, email: $scope.email });
+                    $scope.name = "";
+                    $scope.email = "";
+                }
+                else{
+                    alert("This record already exists");
+                }
+
+          }
+
+
+        };
+
+        $scope.remove = function (index) {
+          $scope.arr.splice(index, 1);
+        };
+
+
+      });
+    </script>
+    <div ng-app="Recorde keeping" ng-controller="myCtrl" class="container">
+      <h1 class="title">Recorde keeping</h1>
+      <form class="form">
+        <input type="text" placeholder="name" ng-model="name" />
+        <input type="text" placeholder="email" ng-model="email" />
+        <button ng-click="add()" class="btn">+</button>
+      </form>
+
+      <div>
+        <ul class="list">
+          <li class="list-header">
+            <span>Name</span>
+            <span>Email</span>
+            <span>Remove</span>
+          </li>
+          <li ng-repeat="x in arr" class="list-item">
+            <span>{{x.name}}</span>
+            <span>{{x.email}}</span>
+            <button ng-click="remove($index)" class="delete-btn"><i class="fa-sharp fa-solid fa-trash"></i></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
